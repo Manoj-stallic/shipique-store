@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Product Details - SHIPIQUE</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="container nav-container">
+      <h1 class="logo">SHIPIQUE</h1>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="product.html">Products</a></li>
+          <li><a href="cart.html">Cart</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Product Details -->
+  <section class="product-details-section">
+    <div class="container product-details-container">
+      <div class="product-image">
+        <img src="https://via.placeholder.com/500x400" alt="Smart Watch">
+      </div>
+      <div class="product-info">
+        <h2>Smart Watch</h2>
+        <p class="price">₹3,499</p>
+        <p class="description">
+          Stay connected in style with the SHIPIQUE Smart Watch. Track your fitness, receive calls and messages, and more.
+        </p>
+        <div class="quantity-control">
+          <label for="quantity">Quantity:</label>
+          <input type="number" id="quantity" name="quantity" min="1" value="1">
+        </div>
+        <button class="btn btn-gradient" onclick="addToCart()">Add to Cart</button>
+        <div class="nav-links-inline">
+          <a href="index.html" class="btn btn-glass">← Back to Home</a>
+          <a href="cart.html" class="btn btn-glass">🛒 View Cart</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <p>&copy; 2025 SHIPIQUE. All rights reserved.</p>
+  </footer>
+
+  <script>
+    function addToCart() {
+      const quantity = parseInt(document.getElementById('quantity').value)
+      const product = {
+        id: 'smartwatch-01',
+        name: 'Smart Watch',
+        price: 3499,
+        quantity: quantity,
+        image: 'https://via.placeholder.com/500x400'
+      }
+
+      let cart = JSON.parse(localStorage.getItem('cart')) || []
+
+      const index = cart.findIndex(item => item.id === product.id)
+      if (index > -1) {
+        cart[index].quantity += quantity
+      } else {
+        cart.push(product)
+      }
+
+      localStorage.setItem('cart', JSON.stringify(cart))
+      alert('Added to cart!')
+    }
+  </script>
+
+</body>
+</html>
