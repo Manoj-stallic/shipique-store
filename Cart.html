@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cart - SHIPIQUE</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="container nav-container">
+      <h1 class="logo">SHIPIQUE</h1>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="product.html">Products</a></li>
+          <li><a href="cart.html">Cart</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Cart Section -->
+  <section class="cart-section">
+    <div class="container">
+      <h2>Your Cart</h2>
+      <div id="cart-items" class="cart-items"></div>
+      <div id="cart-summary" class="cart-summary"></div>
+      <div class="nav-links-inline">
+        <a href="index.html" class="btn btn-glass">← Continue Shopping</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <p>&copy; 2025 SHIPIQUE. All rights reserved.</p>
+  </footer>
+
+  <script>
+    function loadCart() {
+      const cartContainer = document.getElementById('cart-items')
+      const summaryContainer = document.getElementById('cart-summary')
+      let cart = JSON.parse(localStorage.getItem('cart')) || []
+
+      cartContainer.innerHTML = ''
+      summaryContainer.innerHTML = ''
+
+      if (cart.length === 0) {
+        cartContainer.innerHTML = '<p>Your cart is empty.</p>'
+        return
+      }
+
+      let total = 0
+
+      cart.forEach((item, index) => {
+        const itemTotal = item.price * item.quantity
+        total += itemTotal
+
+        const itemElement = document.createElement('div')
+        itemElement.classList.add('cart-item')
+        itemElement.innerHTML = `
+          <img src="${item.image}" alt="${item.name}" class="cart-img" />
+          <div class="cart-info">
+            <h4>${item.name}</h4>
+            <p>Price: ₹${item.price}</p>
+            <p>Quantity: ${item.quantity}</p>
+            <p>Total: ₹${itemTotal}</p>
+            <button class="btn btn-glass" onclick="removeItem(${index})">Remove</button>
+          </div>
+        `
+        cartContainer.appendChild(itemElement)
+      })
+
+      summaryContainer.innerHTML = `
+        <h3>Total Price: ₹${total}</h3>
+        <button class="btn btn-gradient" onclick="checkout()">Proceed to Checkout</button>
+      `
+    }
+
+    function removeItem(index) {
+      let cart = JSON.parse(localStorage.getItem('cart')) || []
+      cart.splice(index, 1)
+      localStorage.setItem('cart', JSON.stringify(cart))
+      loadCart()
+    }
+
+    function checkout() {
+      alert("This is just a front-end demo. Add backend to handle orders!")
+    }
+
+    loadCart()
+  </script>
+
+</body>
+</html>
